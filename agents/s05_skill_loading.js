@@ -364,7 +364,6 @@ async function agentLoop(messages) {
       tools: TOOLS,
       max_tokens: 8000,
     });
-    console.log('response', response)
 
     messages.push({ role: "assistant", content: response.content });
 
