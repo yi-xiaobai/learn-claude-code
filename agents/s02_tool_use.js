@@ -181,7 +181,6 @@ const TOOL_HANDLERS = {
   read_file: ({ path: filePath, limit }) => runRead(filePath, limit),
   write_file: ({ path: filePath, content }) => runWrite(filePath, content),
   edit_file: ({ path: filePath, old_text, new_text }) => runEdit(filePath, old_text, new_text),
-  find_file: ({ pattern, dir }) => runFind(pattern, dir),
 };
 
 // 工具定义 - 告诉AI有哪些工具可用
@@ -231,19 +230,7 @@ const TOOLS = [
       },
       required: ["path", "old_text", "new_text"],
     },
-  },
-  {
-    name: "find_file",
-    description: "Find files by fuzzy matching filename. Returns list of matching files.",
-    input_schema: {
-      type: "object",
-      properties: {
-        pattern: { type: "string", description: "Filename pattern to search (case-insensitive)" },
-        dir: { type: "string", description: "Directory to search in (default: current directory)" },
-      },
-      required: ["pattern"],
-    },
-  },
+  }
 ];
 
 /**
@@ -260,7 +247,6 @@ async function agentLoop(messages) {
       tools: TOOLS,
       max_tokens: 8000,
     });
-    console.log('response', response)
 
     // 添加助手回复到消息历史
     messages.push({ role: "assistant", content: response.content });
