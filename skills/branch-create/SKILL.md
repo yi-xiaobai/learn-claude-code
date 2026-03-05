@@ -51,8 +51,8 @@ Claude 执行：
 | 任务类型 | 分支命名 | 打开的项目 |
 |---------|---------|-----------|
 | feat (新功能) | `feat_canvas_v0`, `v1`... | master-web |
-| fix (Bug修复) | `fix_canvas_v0`, `v1`... | mg-oncall |
-| hotfix (线上问题) | `fix_canvas_v0`, `v1`... | mg-oncall |
+| fix (Bug修复) | `fix_oncall_v0`, `v1`... | mg-oncall |
+| hotfix (线上问题) | `fix_oncall_v0`, `v1`... | mg-oncall |
 
 ---
 
@@ -79,14 +79,14 @@ admin-web|/Users/luoyi/Documents/1_project/admin-web|456|admin|all
 
 ## 版本号计算逻辑
 
-1. 扫描本地分支：`git branch --list "feat_canvas_v*"`
-2. 扫描远程分支：`git branch -r --list "origin/feat_canvas_v*"`
+1. 扫描本地分支：`git branch --list "feat_canvas_v*"` / `"fix_oncall_v*"`
+2. 扫描远程分支：`git branch -r --list "origin/feat_canvas_v*"` / `"origin/fix_oncall_v*"`
 3. 提取所有版本号，找到最大值
 4. 新版本 = 最大值 + 1
 
 **示例**：
-- 现有分支：`feat_canvas_v0`, `feat_canvas_v1`, `feat_canvas_v3`
-- 新分支：`feat_canvas_v4`
+- 现有分支：`feat_canvas_v0`, `feat_canvas_v1`, `fix_oncall_v0`, `fix_oncall_v1`
+- 新分支：`feat_canvas_v2` / `fix_oncall_v2`
 
 ---
 
