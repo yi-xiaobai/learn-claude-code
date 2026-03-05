@@ -35,19 +35,25 @@ NC='\033[0m' # No Color
 # 参数检查
 BRANCH_TYPE=$1
 PROJECT_ALIAS=$2
+BASE_BRANCH_ARG=$3  # 可选：指定基础分支
 
 if [ -z "$BRANCH_TYPE" ]; then
   echo -e "${RED}❌ 请指定分支类型: feat / fix / hotfix${NC}"
   echo ""
   echo "使用方法:"
-  echo "  $0 feat              # 新功能（自动选择匹配的项目）"
-  echo "  $0 feat <项目别名>   # 新功能，指定项目"
-  echo "  $0 fix               # Bug修复"
-  echo "  $0 fix <项目别名>    # Bug修复，指定项目"
-  echo "  $0 hotfix            # 线上问题"
+  echo "  $0 feat                              # 新功能（自动选择匹配的项目）"
+  echo "  $0 feat <项目别名>                   # 新功能，指定项目"
+  echo "  $0 feat <项目别名> <基础分支>         # 新功能，指定项目和基础分支"
+  echo "  $0 fix                               # Bug修复"
+  echo "  $0 fix <项目别名>                    # Bug修复，指定项目"
+  echo "  $0 fix <项目别名> <基础分支>          # Bug修复，指定项目和基础分支"
+  echo "  $0 hotfix                            # 线上问题"
   echo ""
   echo "可用项目别名:"
   echo "  master-web  mg-oncall  (其他自定义项目)"
+  echo ""
+  echo "示例:"
+  echo "  $0 fix mg-oncall dev    # 基于 dev 分支创建 fix 分支"
   exit 1
 fi
 
@@ -128,6 +134,14 @@ echo -e "${BLUE}🔖 分支前缀: $BRANCH_PREFIX${NC}"
 
 # 切换到项目目录
 cd "$PROJECT_PATH" || { echo -e "${RED}❌ 无法进入目录: $PROJECT_PATH${NC}"; exit 1; }
+
+# 确定基础分支：优先使用参数指定 > .env 中的 BASE_BRANCH
+if [ -n "$BASE_BRANCH_ARG" ]; then
+  echo -e "${BLUE}🌿 指定基础分支: $BASE_BRANCH_ARG${NC}"
+  BASE_BRANCH=$BASE_BRANCH_ARG
+else
+  echo -e "${BLUE}🌿 使用默认基础分支: $BASE_BRANCH${NC}"
+fi
 
 # 获取最大版本号
 echo -e "${YELLOW}🔍 正在查找最大版本号...${NC}"
