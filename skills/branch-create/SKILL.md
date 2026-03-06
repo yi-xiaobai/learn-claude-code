@@ -22,10 +22,12 @@ args: <type> [project] [base_branch]
 
 ## 项目映射
 
-| 类型 | 分支命名 | 项目 |
+| 类型 | 分支命名 | 项目(短别名) |
 |-----|---------|------|
-| feat | `feat_canvas_v0` | master-web |
-| fix/hotfix | `fix_oncall_v0` | mg-oncall |
+| feat | `feat_canvas_v0` | master-web(mw) |
+| fix/hotfix | `fix_oncall_v0` | mg-oncall(oncall) |
+
+项目别名支持短别名，用逗号分隔，例如：`enterprise-admin,ea`
 
 ## 示例
 

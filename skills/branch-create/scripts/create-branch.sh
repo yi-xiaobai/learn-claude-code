@@ -50,8 +50,8 @@ if [ -z "$BRANCH_TYPE" ]; then
   echo "  $0 fix <项目别名> <基础分支>          # Bug修复，指定项目和基础分支"
   echo "  $0 hotfix                            # 线上问题"
   echo ""
-  echo "可用项目别名:"
-  echo "  master-web  mg-oncall  (其他自定义项目)"
+  echo "可用项目别名(括号内为短别名):"
+  echo "  master-web(mw)  mg-oncall(oncall)  enterprise-admin(ea)"
   echo ""
   echo "示例:"
   echo "  $0 fix mg-oncall dev    # 基于 dev 分支创建 fix 分支"
@@ -88,7 +88,8 @@ fi
 # 解析配置文件
 PROJECT_PATH=""
 PROJECT_ID=""
-BRANCH_PREFIX=""
+FEAT_PREFIX=""
+FIX_PREFIX=""
 PROJECT_NAME=""
 
 while IFS='|' read -r name path pid prefix types || [ -n "$name" ]; do
@@ -96,13 +97,29 @@ while IFS='|' read -r name path pid prefix types || [ -n "$name" ]; do
   [[ "$name" =~ ^#.*$ ]] && continue
   [[ -z "$name" ]] && continue
 
-  # 如果指定了项目别名，精确匹配
+  # 解析主别名和短别名（用逗号分隔）
+  IFS=',' read -ra ALIASES <<< "$name"
+  PRIMARY_NAME="${ALIASES[0]}"
+
+  # 解析前缀：支持单前缀(prefix)和双前缀(prefix,fix_prefix)
+  IFS=',' read -ra PREFIXES <<< "$prefix"
+  FEAT_PREFIX="${PREFIXES[0]}"
+  FIX_PREFIX="${PREFIXES[1]:-${PREFIXES[0]}}"  # 如果没有 fix 前缀，则复用 feat 前缀
+
+  # 如果指定了项目别名，匹配任意别名（主别名或短别名）
   if [ -n "$PROJECT_ALIAS" ]; then
-    if [[ "$name" == "$PROJECT_ALIAS" ]]; then
+    MATCHED=0
+    for alias in "${ALIASES[@]}"; do
+      alias=$(echo "$alias" | xargs)  # 去除空格
+      if [[ "$alias" == "$PROJECT_ALIAS" ]]; then
+        MATCHED=1
+        break
+      fi
+    done
+    if [ "$MATCHED" -eq 1 ]; then
       PROJECT_PATH="$path"
       PROJECT_ID="$pid"
-      BRANCH_PREFIX="${BRANCH_TYPE}_${prefix}_v"
-      PROJECT_NAME="$name"
+      PROJECT_NAME="$PRIMARY_NAME"
       break
     fi
     continue
@@ -112,7 +129,6 @@ while IFS='|' read -r name path pid prefix types || [ -n "$name" ]; do
   if [[ "$types" == "all" ]] || [[ "$types" == "$TYPE_FILTER" ]]; then
     PROJECT_PATH="$path"
     PROJECT_ID="$pid"
-    BRANCH_PREFIX="${BRANCH_TYPE}_${prefix}_v"
     PROJECT_NAME="$name"
     break
   fi
@@ -126,6 +142,13 @@ if [ -z "$PROJECT_PATH" ]; then
     echo -e "${RED}❌ 没有找到匹配 '$BRANCH_TYPE' 类型的项目配置${NC}"
   fi
   exit 1
+fi
+
+# 根据分支类型选择对应的前缀
+if [ "$BRANCH_TYPE" == "feat" ]; then
+  BRANCH_PREFIX="$FEAT_PREFIX"
+else
+  BRANCH_PREFIX="$FIX_PREFIX"
 fi
 
 echo -e "${BLUE}📦 项目: $PROJECT_NAME${NC}"
@@ -150,8 +173,17 @@ echo -e "${YELLOW}🔍 正在查找最大版本号...${NC}"
 MAX_VERSION=-1
 
 # 扫描本地分支
-for branch in $(git branch --list "${BRANCH_PREFIX}*" 2>/dev/null | sed 's/^[* ]*//'); do
-  VERSION=$(echo "$branch" | sed "s/${BRANCH_PREFIX}//" | grep -E '^[0-9]+$')
+FULL_PREFIX="${BRANCH_TYPE}_${BRANCH_PREFIX}_v"
+for branch in $(git branch --list "${FULL_PREFIX}*" 2>/dev/null | sed 's/^[* ]*//'); do
+  VERSION=$(echo "$branch" | sed "s/${FULL_PREFIX}//" | grep -E '^[0-9]+$')
+  if [ -n "$VERSION" ] && [ "$VERSION" -gt "$MAX_VERSION" ]; then
+    MAX_VERSION=$VERSION
+  fi
+done
+
+# 扫描远程分支
+for branch in $(git branch -r --list "origin/${FULL_PREFIX}*" 2>/dev/null | sed 's/^[* ]*//' | sed 's/^origin\///'); do
+  VERSION=$(echo "$branch" | sed "s/${FULL_PREFIX}//" | grep -E '^[0-9]+$')
   if [ -n "$VERSION" ] && [ "$VERSION" -gt "$MAX_VERSION" ]; then
     MAX_VERSION=$VERSION
   fi
@@ -159,7 +191,7 @@ done
 
 # 计算新版本号
 NEW_VERSION=$((MAX_VERSION + 1))
-NEW_BRANCH="${BRANCH_PREFIX}${NEW_VERSION}"
+NEW_BRANCH="${FULL_PREFIX}${NEW_VERSION}"
 
 echo -e "${BLUE}📊 当前最大版本: v$MAX_VERSION${NC}"
 echo -e "${GREEN}🆕 新分支名称: $NEW_BRANCH${NC}"

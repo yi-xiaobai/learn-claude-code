@@ -55,6 +55,24 @@ npm install
 cp .env.example .env
 ```
 
+### branch-create 技能配置
+
+1. 复制 `skills/branch-create/.env.example` 为 `.env`，填入 GitLab Token：
+```
+GITLAB_TOKEN=your_token
+GITLAB_HOST=gitlab.com
+BASE_BRANCH=master
+```
+
+2. 在 `skills/branch-create/` 目录下创建 `projects.conf`，添加项目配置：
+```
+# 格式: 项目别名|项目路径|GitLab Project ID|分支前缀[,fix前缀]|任务类型
+# 示例:
+my-project|/Users/you/Documents/projects/my-project|123|feature|feat
+```
+
+GitLab Token 获取：GitLab -> Preferences -> Access Tokens -> 创建并勾选 `api` 权限。
+
 ## 依赖
 
 - `@anthropic-ai/sdk`: Anthropic Claude API SDK
