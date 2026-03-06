@@ -19,11 +19,13 @@
 ├── docs/            # 文档
 │   └── agent-tutorial.md
 ├── skills/          # Claude Code 技能
+│   ├── branch-create/
 │   ├── code-review/
 │   ├── git-commit/
 │   ├── git-push/
 │   ├── git-sync/
 │   ├── git-sync-smart/
+│   ├── github-trending/
 │   ├── pdf/
 │   └── work-log/
 └── package.json
@@ -37,7 +39,9 @@
 | `git-sync` | 一键同步 - add, commit, push |
 | `git-sync-smart` | 智能同步 - 智能处理冲突 |
 | `git-push` | 安全推送到远端 |
+| `branch-create` | 自动创建 Git 分支并打开 Windsurf IDE |
 | `code-review` | 代码审查 - 检查 bug 和改进点 |
+| `github-trending` | 获取 GitHub Trending 信息 |
 | `pdf` | PDF 处理技能 |
 | `work-log` | 工作日志管理 |
 
