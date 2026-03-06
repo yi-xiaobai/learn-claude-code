@@ -26,7 +26,6 @@
 │   ├── git-push/
 │   ├── git-sync/
 │   ├── git-sync-smart/
-│   ├── pdf/
 │   └── work-log/
 └── package.json
 ```
@@ -42,7 +41,6 @@
 | `branch-create` | 自动创建 Git 分支并打开 Windsurf IDE |
 | `open-project` | 用 Windsurf IDE 打开指定项目 |
 | `code-review` | 代码审查 - 检查 bug 和改进点 |
-| `pdf` | PDF 处理技能 |
 | `work-log` | 工作日志管理 |
 
 ## 开始使用
