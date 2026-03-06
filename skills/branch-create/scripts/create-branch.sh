@@ -12,15 +12,16 @@
 # ============================================================
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-CONFIG_FILE="$SCRIPT_DIR/projects.conf"
+CONFIG_FILE="$(dirname "$SCRIPT_DIR")/projects.conf"
 
 # ============ GitLab 配置 (从 .env 读取) ============
-# 复制 .env.example 为 .env 并填入你的 GitLab Token
-if [ -f "$SCRIPT_DIR/.env" ]; then
-  source "$SCRIPT_DIR/.env"
+# .env 在 scripts 目录的上一级
+ENV_FILE="$(dirname "$SCRIPT_DIR")/.env"
+if [ -f "$ENV_FILE" ]; then
+  source "$ENV_FILE"
 else
   echo -e "${RED}❌ 配置文件 .env 不存在${NC}"
-  echo "请复制 .env.example 为 .env 并填入 GitLab Token"
+  echo "请复制 .env.example 为 .env 并填入你的 GitLab Token"
   exit 1
 fi
 # =================================================
@@ -150,15 +151,6 @@ MAX_VERSION=-1
 
 # 扫描本地分支
 for branch in $(git branch --list "${BRANCH_PREFIX}*" 2>/dev/null | sed 's/^[* ]*//'); do
-  VERSION=$(echo "$branch" | sed "s/${BRANCH_PREFIX}//" | grep -E '^[0-9]+$')
-  if [ -n "$VERSION" ] && [ "$VERSION" -gt "$MAX_VERSION" ]; then
-    MAX_VERSION=$VERSION
-  fi
-done
-
-# 扫描远程分支
-git fetch origin --prune 2>/dev/null
-for branch in $(git branch -r --list "origin/${BRANCH_PREFIX}*" 2>/dev/null | sed 's/^[* ]*//' | sed 's/origin\///'); do
   VERSION=$(echo "$branch" | sed "s/${BRANCH_PREFIX}//" | grep -E '^[0-9]+$')
   if [ -n "$VERSION" ] && [ "$VERSION" -gt "$MAX_VERSION" ]; then
     MAX_VERSION=$VERSION
