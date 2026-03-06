@@ -12,7 +12,7 @@ args: <type> [project] [base_branch]
 ## 执行方式
 
 ```bash
-/Users/luoyi/Documents/13_AI/learn-claude-code/skills/branch-create/scripts/create-branch.sh <type> [project] [base_branch]
+skills/branch-create/scripts/create-branch.sh <type> [project] [base_branch]
 ```
 
 **参数说明**：
