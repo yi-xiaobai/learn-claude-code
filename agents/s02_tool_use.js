@@ -149,32 +149,6 @@ async function runEdit(filePath, oldText, newText) {
   }
 }
 
-/**
- * 模糊查找文件
- * @param {string} pattern - 搜索模式（支持文件名模糊匹配）
- * @param {string} [dir] - 搜索目录，默认为工作目录
- * @returns {Promise<string>} - 匹配的文件列表
- */
-async function runFind(pattern, dir = ".") {
-  try {
-    const searchDir = safePath(dir);
-    // 使用 find 命令进行模糊搜索，-iname 忽略大小写
-    const { stdout, stderr } = await execAsync(
-      `find "${searchDir}" -type f -iname "*${pattern}*" 2>/dev/null | head -50`,
-      { cwd: WORKDIR, timeout: 30000 }
-    );
-    const output = stdout.trim();
-    if (!output) {
-      return `No files found matching: ${pattern}`;
-    }
-    // 转换为相对路径，更易读
-    const files = output.split("\n").map((f) => path.relative(WORKDIR, f));
-    return `Found ${files.length} file(s):\n${files.join("\n")}`;
-  } catch (error) {
-    return `Error: ${error.message}`;
-  }
-}
-
 // -- 工具分发映射: {工具名: 处理函数} --
 const TOOL_HANDLERS = {
   bash: ({ command }) => runBash(command),
