@@ -149,12 +149,35 @@ async function runEdit(filePath, oldText, newText) {
   }
 }
 
+/**
+ * 删除文件或目录
+ * @param {string} filePath - 文件路径
+ * @returns {Promise<string>} - 操作结果
+ */
+async function runRemove(filePath) {
+  try {
+    const fullPath = safePath(filePath);
+    const stats = await fs.stat(fullPath);
+
+    if (stats.isDirectory()) {
+      await fs.rm(fullPath, { recursive: true });
+      return `Removed directory: ${filePath}`;
+    } else {
+      await fs.unlink(fullPath);
+      return `Removed file: ${filePath}`;
+    }
+  } catch (error) {
+    return `Error: ${error.message}`;
+  }
+}
+
 // -- 工具分发映射: {工具名: 处理函数} --
 const TOOL_HANDLERS = {
   bash: ({ command }) => runBash(command),
   read_file: ({ path: filePath, limit }) => runRead(filePath, limit),
   write_file: ({ path: filePath, content }) => runWrite(filePath, content),
   edit_file: ({ path: filePath, old_text, new_text }) => runEdit(filePath, old_text, new_text),
+  remove_file: ({ path: filePath }) => runRemove(filePath),
 };
 
 // 工具定义 - 告诉AI有哪些工具可用
@@ -203,6 +226,17 @@ const TOOLS = [
         new_text: { type: "string" },
       },
       required: ["path", "old_text", "new_text"],
+    },
+  },
+  {
+    name: "remove_file",
+    description: "Delete a file or directory.",
+    input_schema: {
+      type: "object",
+      properties: {
+        path: { type: "string" },
+      },
+      required: ["path"],
     },
   }
 ];
