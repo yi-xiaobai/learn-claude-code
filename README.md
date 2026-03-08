@@ -39,7 +39,7 @@
 
 1. 安装依赖：
 ```bash
-npm install
+yarn install
 ```
 
 2. 配置环境变量（复制 `.env.example` 为 `.env` 并填写 API Key）：
