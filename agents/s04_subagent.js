@@ -217,6 +217,8 @@ async function runSubagent(prompt) {
       max_tokens: 8000,
     });
 
+    console.log("subagent response", response);
+
     subMessages.push({ role: "assistant", content: response.content });
 
     // 如果不再需要工具，退出循环
