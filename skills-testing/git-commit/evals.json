@@ -1,0 +1,23 @@
+{
+  "skill_name": "git-commit",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "帮我提交代码",
+      "expected_output": "查看 git status 和 diff，生成符合 Conventional Commits 规范的提交信息，包含 Co-Authored-By",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "我修改了一些文件，需要提交",
+      "expected_output": "分析变更内容，生成合适的 type(feat/fix/docs 等)，创建格式化的 commit message",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "提交当前的所有修改",
+      "expected_output": "查看变更，生成提交信息，执行 git add 和 git commit",
+      "files": []
+    }
+  ]
+}

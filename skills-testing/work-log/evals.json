@@ -1,0 +1,41 @@
+{
+  "skill_name": "work-log",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "记录今天的任务：完成了树形控件问题修复，正在做axure导入",
+      "expected_output": "在今天的日期下添加两个任务：[x] 树形控件问题修复，[ ] axure导入",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "生成下周的日期模板",
+      "expected_output": "在文件末尾追加下周一到周五的日期，周一前插入4个空行作为周分隔",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "3月19号请假",
+      "expected_output": "添加 ### 2025.03.19（请假）",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "把树形控件任务标记为完成",
+      "expected_output": "找到对应任务，将 [ ] 改为 [x]",
+      "files": []
+    },
+    {
+      "id": 5,
+      "prompt": "导出PDF",
+      "expected_output": "使用 AppleScript 自动打开 Typora 并导出 PDF",
+      "files": []
+    },
+    {
+      "id": 6,
+      "prompt": "记录昨天：做了登录页面优化和表单验证",
+      "expected_output": "在昨天的日期下添加两个任务",
+      "files": []
+    }
+  ]
+}

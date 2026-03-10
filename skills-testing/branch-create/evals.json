@@ -1,0 +1,29 @@
+{
+  "skill_name": "branch-create",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "创建一个新功能分支",
+      "expected_output": "创建 feat 类型的分支，自动选择 master-web 项目，基于 master，自动递增版本号",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "创建一个 fix 分支",
+      "expected_output": "创建 fix 类型的分支，自动选择 mg-oncall 项目，基于 master，自动递增版本号",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "基于 dev 分支创建一个新功能",
+      "expected_output": "创建 feat 类型的分支，自动选择项目，基于 dev 分支创建",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "创建一个 hotfix 分支处理线上问题",
+      "expected_output": "创建 hotfix 类型的分支，自动选择 mg-oncall 项目，用于紧急修复",
+      "files": []
+    }
+  ]
+}

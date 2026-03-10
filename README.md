@@ -23,17 +23,37 @@
 │   ├── code-review/
 │   ├── git-sync-smart/
 │   └── work-log/
+├── skills-testing/  # 技能测试用例
+│   ├── branch-create/
+│   ├── git-commit/
+│   ├── git-sync-smart/
+│   └── work-log/
 └── package.json
 ```
 
 ## 技能列表
 
-| 技能 | 描述 |
-|------|------|
-| `git-sync-smart` | 智能同步 - 智能处理冲突 |
-| `branch-create` | 自动创建 Git 分支并打开 Windsurf IDE |
-| `code-review` | 代码审查 - 检查 bug 和改进点 |
-| `work-log` | 工作日志管理 |
+| 技能 | 描述 | 测试用例 |
+|------|------|---------|
+| `branch-create` | 自动创建 Git 分支并打开 Windsurf IDE | 4 |
+| `git-commit` | 分析变更并生成规范的提交信息 | 3 |
+| `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
+| `code-review` | 代码审查 - 检查 bug 和改进点 | - |
+| `work-log` | 工作日志管理 | 6 |
+
+**总计：16 个测试用例** (不含 code-review)
+
+### 重点技能
+
+**work-log** - 智能工作日志
+- 📅 自动生成下周日期（周一前插入周分隔）
+- ✏️ 任务管理、相对日期、特殊标记
+- 📄 AppleScript 自动导出 PDF
+
+**git-sync-smart** - 安全推送
+- 🔄 智能冲突处理：自动 rebase + 备份分支
+- 🛡️ 冲突时展示 diff，用户选择解决方式
+- ↩️ 支持回滚到备份状态
 
 ## 开始使用
 
@@ -64,6 +84,23 @@ my-project|/Users/you/Documents/projects/my-project|123|feature|feat
 ```
 
 GitLab Token 获取：GitLab -> Preferences -> Access Tokens -> 创建并勾选 `api` 权限。
+
+## 测试
+
+查看技能测试用例：
+
+```bash
+# 查看某个技能的测试用例
+cat skills-testing/work-log/evals.json | jq
+
+# 统计所有测试用例
+find skills-testing -name "evals.json" -exec grep -c '"id"' {} \;
+```
+
+**注意事项**：
+- `work-log`: 会修改工作日志文件
+- `branch-create`: 需要 GitLab 访问权限
+- `work-log PDF 导出`: 需要辅助功能权限
 
 ## 依赖
 
