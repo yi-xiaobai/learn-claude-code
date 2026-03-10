@@ -37,14 +37,25 @@ args: <type> [base_branch] [ide]
 
 ### Step 3: 生成分支名
 
-格式：`{type}/{描述}`
+格式：`{type}-{优化的英文描述}-v{版本号}`
+
+**版本号规则：**
+1. 获取本地所有该类型的分支（如 `feat-*`）
+2. 提取其中最大的版本号，没有则从 v0 开始
+3. 新分支使用 `v{最大版本号 + 1}`
+
+**中文描述转英文规则：**
+1. 将中文描述翻译为简洁的英文短语
+2. 使用 kebab-case（短横线分隔）
+3. 保持简短（建议 2-4 个单词）
+4. 描述核心功能而非实现细节
 
 例如：
-- `feat/add-user-login`
-- `fix/navbar-overflow`
-- `hotfix/payment-timeout`
+- 现有 `feat-test-usage-v0`，新分支 → `feat-test-usage-v1`
+- 现有 `fix-navbar-overflow-v2`，新分支 → `fix-navbar-overflow-v3`
+- 没有现有分支 → `feat-new-feature-v0`
 
-如果用户提供了描述，使用用户描述；否则从现有分支名提取版本号 + 1
+如果用户提供了英文描述，直接使用；否则翻译为英文。
 
 ### Step 4: 先创建远程分支
 
