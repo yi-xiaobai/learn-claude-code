@@ -20,6 +20,7 @@
 │   └── agent-tutorial.md
 ├── skills/          # Claude Code 技能
 │   ├── branch-create/
+│   ├── branch-create-flexible/
 │   ├── code-check/
 │   ├── git-sync-smart/
 │   └── work-log/
@@ -36,7 +37,7 @@
 | 技能 | 描述 | 测试用例 |
 |------|------|---------|
 | `branch-create` | 自动创建 Git 分支并打开 Windsurf IDE | 4 |
-| `git-commit` | 分析变更并生成规范的提交信息 | 3 |
+| `branch-create-flexible` | 灵活创建分支 - 支持自定义基础分支和 IDE | - |
 | `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
 | `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
 | `work-log` | 工作日志管理 | 6 |
