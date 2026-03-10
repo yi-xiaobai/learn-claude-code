@@ -19,13 +19,11 @@
 ├── docs/            # 文档
 │   └── agent-tutorial.md
 ├── skills/          # Claude Code 技能
-│   ├── branch-create/
 │   ├── branch-create-flexible/
 │   ├── code-check/
 │   ├── git-sync-smart/
 │   └── work-log/
 ├── skills-testing/  # 技能测试用例
-│   ├── branch-create/
 │   ├── git-commit/
 │   ├── git-sync-smart/
 │   └── work-log/
@@ -36,13 +34,12 @@
 
 | 技能 | 描述 | 测试用例 |
 |------|------|---------|
-| `branch-create` | 自动创建 Git 分支并打开 Windsurf IDE | 4 |
-| `branch-create-flexible` | 灵活创建分支 - 支持自定义基础分支和 IDE | - |
+| `branch-create-flexible` | 灵活创建分支 - 支持自定义基础分支和 IDE，版本号管理 | - |
 | `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
 | `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
 | `work-log` | 工作日志管理 | 6 |
 
-**总计：16 个测试用例** (不含 code-check)
+**总计：9 个测试用例** (不含 code-check, branch-create-flexible)
 
 ### 重点技能
 
@@ -100,7 +97,7 @@ find skills-testing -name "evals.json" -exec grep -c '"id"' {} \;
 
 **注意事项**：
 - `work-log`: 会修改工作日志文件
-- `branch-create`: 需要 GitLab 访问权限
+- `branch-create-flexible`: 需要 Git 仓库访问权限
 - `work-log PDF 导出`: 需要辅助功能权限
 
 ## 依赖
