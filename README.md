@@ -20,7 +20,7 @@
 │   └── agent-tutorial.md
 ├── skills/          # Claude Code 技能
 │   ├── branch-create/
-│   ├── code-review/
+│   ├── code-check/
 │   ├── git-sync-smart/
 │   └── work-log/
 ├── skills-testing/  # 技能测试用例
@@ -38,10 +38,10 @@
 | `branch-create` | 自动创建 Git 分支并打开 Windsurf IDE | 4 |
 | `git-commit` | 分析变更并生成规范的提交信息 | 3 |
 | `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
-| `code-review` | 代码审查 - 检查 bug 和改进点 | - |
+| `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
 | `work-log` | 工作日志管理 | 6 |
 
-**总计：16 个测试用例** (不含 code-review)
+**总计：16 个测试用例** (不含 code-check)
 
 ### 重点技能
 
