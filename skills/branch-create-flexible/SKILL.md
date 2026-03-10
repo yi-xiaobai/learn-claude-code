@@ -46,15 +46,22 @@ args: <type> [base_branch] [ide]
 
 如果用户提供了描述，使用用户描述；否则从现有分支名提取版本号 + 1
 
-### Step 4: 创建分支
+### Step 4: 先创建远程分支
 
 ```bash
-# 确保本地有基础分支的最新代码
-git fetch origin
-git checkout -b <new_branch> origin/<base_branch>
+# 基于基础分支创建远程分支
+git push -u origin <base_branch>:<new_branch>
 ```
 
-### Step 5: 用 IDE 打开
+### Step 5: 拉取并切换到本地分支
+
+```bash
+# 拉取远程分支并切换
+git fetch origin
+git checkout -b <new_branch> origin/<new_branch>
+```
+
+### Step 6: 用 IDE 打开
 
 **Windsurf:**
 ```bash
@@ -68,37 +75,30 @@ code --folder-uri <project_path>
 code <project_path>
 ```
 
-### Step 6: 推送到远程（可选）
-
-如果需要推送到远程：
-```bash
-git push -u origin <new_branch>
-```
-
 ## 交互示例
 
-**用户说："创建一个 fix 分支，基于 dev"**
+**用户说："创建一个 fix 分支"**
 ```
 type: fix
-base_branch: dev
-ide: windsurf (默认)
-→ 创建分支 fix/xxx，基于 dev，用 Windsurf 打开
-```
-
-**用户说："用 VS Code 打开项目，创建一个 feat 分支，基于 master"**
-```
-type: feat
-base_branch: master
-ide: vscode
-→ 创建分支 feat/xxx，基于 master，用 VS Code 打开
-```
-
-**用户说："开一个 hotfix 分支"**
-```
-type: hotfix
 base_branch: dev (默认)
 ide: windsurf (默认)
-→ 创建分支 hotfix/xxx，基于 dev，用 Windsurf 打开
+→ 基于 dev 创建远程分支 fix/xxx，切换本地分支，用 Windsurf 打开
+```
+
+**用户说："用 VS Code 打开项目，创建一个 feat 分支"**
+```
+type: feat
+base_branch: dev (默认)
+ide: vscode
+→ 基于 dev 创建远程分支 feat/xxx，切换本地分支，用 VS Code 打开
+```
+
+**用户说："开一个 hotfix 分支，基于 master"**
+```
+type: hotfix
+base_branch: master
+ide: windsurf (默认)
+→ 基于 master 创建远程分支 hotfix/xxx，切换本地分支，用 Windsurf 打开
 ```
 
 ## 错误处理
