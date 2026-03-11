@@ -57,22 +57,29 @@ args: <type> [base_branch] [ide]
 
 如果用户提供了英文描述，直接使用；否则翻译为英文。
 
-### Step 4: 先创建远程分支
+### Step 4: 先拉取远程最新状态
 
 ```bash
-# 基于基础分支创建远程分支
-git push -u origin <base_branch>:<new_branch>
+# 确保远程信息是最新的
+git fetch origin
 ```
 
-### Step 5: 拉取并切换到本地分支
+### Step 5: 创建远程分支
 
 ```bash
-# 拉取远程分支并切换
+# 基于远程基础分支创建远程分支
+git push origin origin/<base_branch>:refs/heads/<new_branch>
+```
+
+### Step 6: 切换到本地分支
+
+```bash
+# 拉取新创建的远程分支并切换
 git fetch origin
 git checkout -b <new_branch> origin/<new_branch>
 ```
 
-### Step 6: 用 IDE 打开
+### Step 7: 用 IDE 打开
 
 **Windsurf:**
 ```bash
