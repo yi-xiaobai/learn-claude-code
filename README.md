@@ -22,6 +22,7 @@
 │   ├── branch-create-flexible/
 │   ├── code-check/
 │   ├── git-sync-smart/
+│   ├── github-trending-feishu/
 │   └── work-log/
 ├── skills-testing/  # 技能测试用例
 │   ├── git-commit/
@@ -34,6 +35,7 @@
 
 | 技能 | 描述 | 测试用例 |
 |------|------|---------|
+| `github-trending-feishu` | GitHub Trending 飞书推送 - 自动获取热榜并推送到飞书群 | - |
 | `branch-create-flexible` | 灵活创建分支 - 支持自定义基础分支和 IDE，版本号管理 | - |
 | `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
 | `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
