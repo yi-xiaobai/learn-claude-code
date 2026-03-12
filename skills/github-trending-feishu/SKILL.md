@@ -1,74 +1,85 @@
 ---
 name: github-trending-feishu
 description: |
-  每个工作日上午10点自动获取GitHub Trending热榜前十名，以精美卡片格式推送到飞书群。
+  获取 GitHub Trending 热榜并推送到飞书群。支持日/周/月热榜。
 
   触发场景：
   - 用户说"发送GitHub热榜到飞书"、"推送今日热榜"、"发送trending"
+  - 用户说"发送周热榜"、"推送月热榜"
   - 用户想设置定时推送GitHub热榜
-  - 用户询问如何自动发送GitHub热门项目到飞书
+args: [since] [webhook]
 ---
 
 # GitHub Trending 飞书推送
 
 自动获取 GitHub Trending 热榜并通过飞书机器人推送到群聊。
 
+## 参数说明
+
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `since` | 时间范围：`daily`(今日)/`weekly`(本周)/`monthly`(本月) | `daily` |
+| `webhook` | 飞书 Webhook URL | 从环境变量读取 |
+
 ## 使用方式
 
-### 1. 配置飞书 Webhook
-
-首先需要获取飞书群机器人的 Webhook 地址：
-1. 在飞书群中添加「自定义机器人」
-2. 获取 Webhook URL（格式类似 `https://open.feishu.cn/open-apis/bot/v2/hook/xxx`）
-3. 设置环境变量或直接在脚本中配置
-
-### 2. 执行推送
-
-运行以下命令立即推送当前热榜：
+### 立即发送（默认日热榜）
 
 ```bash
-python skills/github-trending-feishu/scripts/fetch_and_send.py --webhook "YOUR_WEBHOOK_URL"
+python3 skills/github-trending-feishu/scripts/fetch_and_send.py --webhook "YOUR_WEBHOOK_URL"
 ```
 
-或设置环境变量后直接运行：
+### 发送周热榜
 
 ```bash
-export FEISHU_WEBHOOK="YOUR_WEBHOOK_URL"
-python skills/github-trending-feishu/scripts/fetch_and_send.py
+python3 skills/github-trending-feishu/scripts/fetch_and_send.py --since weekly --webhook "YOUR_WEBHOOK_URL"
 ```
 
-### 3. 设置定时任务（工作日10:00）
-
-在 Claude Code 中使用内置定时器：
-
-```
-帮我设置每个工作日10点发送GitHub热榜到飞书，webhook地址是: YOUR_WEBHOOK_URL
-```
-
-或者使用系统 crontab（需要脚本路径和环境变量）：
+### 发送月热榜
 
 ```bash
-# 编辑 crontab
-crontab -e
+python3 skills/github-trending-feishu/scripts/fetch_and_send.py --since monthly --webhook "YOUR_WEBHOOK_URL"
+```
 
-# 添加以下行（工作日10:00执行）
-0 10 * * 1-5 FEISHU_WEBHOOK="YOUR_WEBHOOK_URL" python3 skills/github-trending-feishu/scripts/fetch_and_send.py >> /tmp/github-trending.log 2>&1
+## 定时任务设置
+
+### 日热榜（工作日 10:00）
+
+```bash
+0 10 * * 1-5 python3 /path/to/fetch_and_send.py --webhook "YOUR_URL" >> /tmp/github-trending.log 2>&1
+```
+
+### 周热榜（每周一 10:00）
+
+```bash
+0 10 * * 1 python3 /path/to/fetch_and_send.py --since weekly --webhook "YOUR_URL" >> /tmp/github-trending.log 2>&1
+```
+
+### 月热榜（每月 1 号 10:00）
+
+```bash
+0 10 1 * * python3 /path/to/fetch_and_send.py --since monthly --webhook "YOUR_URL" >> /tmp/github-trending.log 2>&1
 ```
 
 ## 消息格式
 
 飞书卡片消息包含：
-- 标题：当日 GitHub Trending Top 10
+- 标题：GitHub Trending（日/周/月）
 - 每个项目显示：
   - 仓库名称（可点击链接）
   - 星标数、Fork 数
-  - 今日新增星标
+  - 今日/本周/本月新增星标
   - 项目描述
   - 主要语言
 
-## 自定义配置
+## 环境变量
 
-编辑 `scripts/fetch_and_send.py` 可以修改：
-- `SINCE`: 时间范围（daily/weekly/monthly）
-- `LANGUAGE`: 特定语言过滤（留空为全部）
-- 卡片样式和字段
+| 变量 | 说明 |
+|------|------|
+| `FEISHU_WEBHOOK` | 飞书 Webhook URL |
+| `FEISHU_SECRET` | 签名密钥（可选，开启签名校验时需要） |
+
+## 注意事项
+
+- 飞书机器人若开启关键词验证，消息需包含关键词才能发送
+- 本脚本消息包含 `github trending` 关键词

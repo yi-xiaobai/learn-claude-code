@@ -19,7 +19,7 @@ from datetime import datetime
 
 
 # ============ 配置区域 ============
-SINCE = "daily"  # daily / weekly / monthly
+DEFAULT_SINCE = "daily"  # 默认 daily / weekly / monthly
 LANGUAGE = ""    # 留空为全部，可设置为 "python", "javascript" 等
 TOP_N = 10       # 获取前N个项目
 
@@ -28,6 +28,13 @@ TOP_N = 10       # 获取前N个项目
 # 如果开启了签名校验，还需要填写 secret（以 sec_ 开头）
 WEBHOOK_URL = ""  # 直接填写 webhook 地址
 SECRET = ""       # 签名密钥，以 sec_ 开头（选填）
+
+# 时间范围显示映射
+SINCE_LABELS = {
+    "daily": "今日",
+    "weekly": "本周",
+    "monthly": "本月"
+}
 # ================================
 
 
@@ -189,7 +196,7 @@ def format_number(num_str):
         return num_str
 
 
-def build_feishu_card(repos):
+def build_feishu_card(repos, since="daily"):
     """构建飞书卡片消息"""
 
     if not repos:
@@ -201,6 +208,7 @@ def build_feishu_card(repos):
         }
 
     today = datetime.now().strftime("%Y-%m-%d")
+    since_label = SINCE_LABELS.get(since, "今日")
 
     # 构建项目列表元素
     project_elements = []
@@ -225,7 +233,7 @@ def build_feishu_card(repos):
             "elements": [
                 {
                     "tag": "plain_text",
-                    "content": f"⭐ {stars} (+{today_stars} today) | 🔀 {repo.get('forks', '0')} | 📝 {lang}"
+                    "content": f"⭐ {stars} (+{today_stars} {since_label}) | 🔀 {repo.get('forks', '0')} | 📝 {lang}"
                 }
             ]
         })
@@ -252,7 +260,7 @@ def build_feishu_card(repos):
                     "tag": "div",
                     "text": {
                         "tag": "lark_md",
-                        "content": f"📅 **{today}** | github trending | 数据来源: [GitHub Trending](https://github.com/trending)"
+                        "content": f"📅 **{today}** | github trending | **{since_label}热榜**"
                     }
                 },
                 {"tag": "hr"},
@@ -319,7 +327,10 @@ def main():
     # 获取 secret
     secret = SECRET or os.environ.get('FEISHU_SECRET', '')
 
-    # 也支持命令行参数
+    # 获取 since（默认 daily）
+    since = DEFAULT_SINCE
+
+    # 命令行参数解析
     if '--webhook' in sys.argv:
         idx = sys.argv.index('--webhook')
         if idx + 1 < len(sys.argv):
@@ -330,13 +341,21 @@ def main():
         if idx + 1 < len(sys.argv):
             secret = sys.argv[idx + 1]
 
+    if '--since' in sys.argv:
+        idx = sys.argv.index('--since')
+        if idx + 1 < len(sys.argv):
+            since = sys.argv[idx + 1].lower()
+            if since not in ['daily', 'weekly', 'monthly']:
+                print(f"警告: --since 参数无效 '{since}'，使用默认值 'daily'")
+                since = 'daily'
+
     if not webhook_url:
         print("错误: 请设置 FEISHU_WEBHOOK 环境变量或使用 --webhook 参数")
-        print("用法: python fetch_and_send.py --webhook 'https://open.feishu.cn/...'")
+        print("用法: python fetch_and_send.py --webhook 'https://open.feishu.cn/...' [--since daily|weekly|monthly]")
         sys.exit(1)
 
-    print(f"正在获取 GitHub Trending ({SINCE})...")
-    repos = fetch_trending(SINCE, LANGUAGE)
+    print(f"正在获取 GitHub Trending ({since})...")
+    repos = fetch_trending(since, LANGUAGE)
 
     if not repos:
         print("未能获取数据")
@@ -347,7 +366,7 @@ def main():
         print(f"  {i}. {repo['name']} - ⭐{repo['stars']} (+{repo['today_stars']})")
 
     print("\n构建飞书卡片...")
-    card = build_feishu_card(repos)
+    card = build_feishu_card(repos, since)
 
     print("发送到飞书...")
     if send_to_feishu(webhook_url, card, secret):

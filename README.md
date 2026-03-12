@@ -35,7 +35,7 @@
 
 | 技能 | 描述 | 测试用例 |
 |------|------|---------|
-| `github-trending-feishu` | GitHub Trending 飞书推送 - 自动获取热榜并推送到飞书群 | - |
+| `github-trending-feishu` | GitHub Trending 飞书推送 - 支持日/周/月热榜，定时推送到飞书群 | - |
 | `branch-create-flexible` | 灵活创建分支 - 支持自定义基础分支和 IDE，版本号管理 | - |
 | `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
 | `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
@@ -54,6 +54,11 @@
 - 🔄 智能冲突处理：自动 rebase + 备份分支
 - 🛡️ 冲突时展示 diff，用户选择解决方式
 - ↩️ 支持回滚到备份状态
+
+**github-trending-feishu** - GitHub 热榜推送
+- 📊 支持日/周/月热榜（`--since daily|weekly|monthly`）
+- 📅 定时推送：工作日 10:00 日热榜，每周一 10:00 周热榜，每月 1 号 10:00 月热榜
+- 💬 飞书卡片消息，精美排版
 
 ## 开始使用
 
