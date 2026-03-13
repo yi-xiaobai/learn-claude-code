@@ -1,12 +1,25 @@
 ---
 name: work-log
-description: 管理工作日志，支持添加任务和生成未来一周日期模板。当用户请求记录工作内容、添加任务、生成日期模板时使用此技能。
+description: 管理jwzg工作日志，支持添加任务和生成未来一周日期模板。当用户请求记录工作内容、添加任务、生成日期模板时使用此技能。
 tags: work, log, daily, task, journal
 ---
 
 # 工作日志管理 Skill
 
-**目标文件**: `$WORK_LOG_PATH` 环境变量，或默认 `~/Documents/工作日志.md`
+**目标文件**: `$WORK_LOG_PATH` 环境变量（配置见 `.env` 文件）
+
+## 配置
+
+在技能目录下创建 `.env` 文件：
+
+```bash
+WORK_LOG_PATH=~/Documents/工作日志.md
+```
+
+**加载配置**:
+```bash
+source ~/.claude/skills/work-log/.env
+```
 
 ---
 
@@ -20,7 +33,7 @@ tags: work, log, daily, task, journal
 
 1. **读取工作日志文件**
 ```bash
-cat ${WORK_LOG_PATH:-~/Documents/工作日志}.md
+source ~/.claude/skills/work-log/.env && cat "$WORK_LOG_PATH"
 ```
 
 2. **解析用户输入**
@@ -174,12 +187,15 @@ cat ${WORK_LOG_PATH:-~/Documents/工作日志}.md
 完成 md 文件编辑后，执行以下 AppleScript 命令自动导出 PDF：
 
 ```bash
+# 加载环境变量
+source ~/.claude/skills/work-log/.env
+
 # 先删除旧的 PDF 文件（避免弹出替换确认框）
-rm -f "${WORK_LOG_PATH:-~/Documents/工作日志}.pdf"
+rm -f "${WORK_LOG_PATH%.md}.pdf"
 
 # 然后执行导出
-osascript <<'EOF'
-set mdFile to "${WORK_LOG_PATH:-~/Documents/工作日志}.md"
+osascript <<EOF
+set mdFile to "$WORK_LOG_PATH"
 
 tell application "Typora"
     activate
@@ -218,8 +234,8 @@ EOF
 ### PDF 输出位置
 
 PDF 文件会保存在与 md 文件相同的目录：
-- 输入: `${WORK_LOG_PATH:-~/Documents/工作日志}.md`
-- 输出: `${WORK_LOG_PATH:-~/Documents/工作日志}.pdf`
+- 输入: `$WORK_LOG_PATH`
+- 输出: `${WORK_LOG_PATH%.md}.pdf`
 
 ### 注意事项
 
