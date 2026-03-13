@@ -25,6 +25,7 @@
 │   ├── git-sync-smart/
 │   ├── github-trending-feishu/
 │   ├── mr-list/
+│   ├── skill-lint/
 │   └── work-log/
 ├── skills-testing/  # 技能测试用例
 │   ├── git-commit/
@@ -44,10 +45,17 @@
 | `work-log` | 工作日志管理 | 6 |
 | `mr-list` | GitLab MR 列表查看 - 显示 MR 的标题、作者、Pipeline 状态等信息 | - |
 | `create-mr` | GitLab MR 自动创建 - 基于当前分支自动创建 Merge Request | - |
+| `skill-lint` | 技能合规检查 - 扫描硬编码路径、敏感信息，检查 .env 是否正确引入 | - |
 
-**总计：9 个测试用例** (不含 code-check, branch-create-flexible, mr-list, create-mr)
+**总计：9 个测试用例** (不含 code-check, branch-create-flexible, mr-list, create-mr, skill-lint)
 
 ### 重点技能
+
+**skill-lint** - 技能合规检查器
+- 🔍 扫描硬编码路径（`/Users/xxx/`、`/home/xxx/`）
+- 🔐 检测敏感信息泄露（Token、Key）
+- 📦 检查 .env 文件是否被正确引入
+- ✅ 支持 Python 脚本内部加载 .env 的智能检测
 
 **work-log** - 智能工作日志
 - 📅 自动生成下周日期（周一前插入周分隔）
