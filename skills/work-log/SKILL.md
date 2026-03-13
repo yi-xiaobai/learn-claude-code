@@ -6,7 +6,7 @@ tags: work, log, daily, task, journal
 
 # 工作日志管理 Skill
 
-**目标文件**: `/Users/luoyi/Documents/3_file/jwzg工作日志.md`
+**目标文件**: `$WORK_LOG_PATH` 环境变量，或默认 `~/Documents/工作日志.md`
 
 ---
 
@@ -20,7 +20,7 @@ tags: work, log, daily, task, journal
 
 1. **读取工作日志文件**
 ```bash
-cat /Users/luoyi/Documents/3_file/jwzg工作日志.md
+cat ${WORK_LOG_PATH:-~/Documents/工作日志}.md
 ```
 
 2. **解析用户输入**
@@ -175,11 +175,11 @@ cat /Users/luoyi/Documents/3_file/jwzg工作日志.md
 
 ```bash
 # 先删除旧的 PDF 文件（避免弹出替换确认框）
-rm -f "/Users/luoyi/Documents/3_file/jwzg工作日志.pdf"
+rm -f "${WORK_LOG_PATH:-~/Documents/工作日志}.pdf"
 
 # 然后执行导出
 osascript <<'EOF'
-set mdFile to "/Users/luoyi/Documents/3_file/jwzg工作日志.md"
+set mdFile to "${WORK_LOG_PATH:-~/Documents/工作日志}.md"
 
 tell application "Typora"
     activate
@@ -218,8 +218,8 @@ EOF
 ### PDF 输出位置
 
 PDF 文件会保存在与 md 文件相同的目录：
-- 输入: `/Users/luoyi/Documents/3_file/jwzg工作日志.md`
-- 输出: `/Users/luoyi/Documents/3_file/jwzg工作日志.pdf`
+- 输入: `${WORK_LOG_PATH:-~/Documents/工作日志}.md`
+- 输出: `${WORK_LOG_PATH:-~/Documents/工作日志}.pdf`
 
 ### 注意事项
 

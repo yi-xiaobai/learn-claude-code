@@ -21,8 +21,10 @@
 ├── skills/          # Claude Code 技能
 │   ├── branch-create-flexible/
 │   ├── code-check/
+│   ├── create-mr/
 │   ├── git-sync-smart/
 │   ├── github-trending-feishu/
+│   ├── mr-list/
 │   └── work-log/
 ├── skills-testing/  # 技能测试用例
 │   ├── git-commit/
@@ -40,8 +42,10 @@
 | `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
 | `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
 | `work-log` | 工作日志管理 | 6 |
+| `mr-list` | GitLab MR 列表查看 - 显示 MR 的标题、作者、Pipeline 状态等信息 | - |
+| `create-mr` | GitLab MR 自动创建 - 基于当前分支自动创建 Merge Request | - |
 
-**总计：9 个测试用例** (不含 code-check, branch-create-flexible)
+**总计：9 个测试用例** (不含 code-check, branch-create-flexible, mr-list, create-mr)
 
 ### 重点技能
 
