@@ -36,18 +36,30 @@
 
 ## 技能列表
 
+### Git 工作流
+
 | 技能 | 描述 | 测试用例 |
 |------|------|---------|
-| `github-trending-feishu` | GitHub Trending 飞书推送 - 支持日/周/月热榜，定时推送到飞书群 | - |
 | `branch-create-flexible` | 灵活创建分支 - 支持自定义基础分支和 IDE，版本号管理 | - |
-| `git-sync-smart` | 智能同步 - 自动处理冲突 | 3 |
-| `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
-| `work-log` | 工作日志管理 | 6 |
-| `mr-list` | GitLab MR 列表查看 - 显示 MR 的标题、作者、Pipeline 状态等信息 | - |
+| `git-sync-smart` | 智能同步 - 自动处理冲突，备份分支 | 3 |
+| `mr-list` | GitLab MR 列表查看 - 显示 MR 的标题、作者、Pipeline 状态 | - |
 | `create-mr` | GitLab MR 自动创建 - 基于当前分支自动创建 Merge Request | - |
-| `skill-lint` | 技能合规检查 - 扫描硬编码路径、敏感信息，检查 .env 是否正确引入 | - |
 
-**总计：9 个测试用例** (不含 code-check, branch-create-flexible, mr-list, create-mr, skill-lint)
+### 代码质量
+
+| 技能 | 描述 | 测试用例 |
+|------|------|---------|
+| `code-check` | 提交前自检 - 运行静态分析并给出改进建议 | - |
+| `skill-lint` | 技能合规检查 - 扫描硬编码路径、敏感信息，检查 .env 引入 | - |
+
+### 效率工具
+
+| 技能 | 描述 | 测试用例 |
+|------|------|---------|
+| `work-log` | 工作日志管理 - 任务记录、日期模板、PDF 导出 | 6 |
+| `github-trending-feishu` | GitHub Trending 飞书推送 - 支持日/周/月热榜 | - |
+
+**总计：9 个测试用例**
 
 ### 重点技能
 
