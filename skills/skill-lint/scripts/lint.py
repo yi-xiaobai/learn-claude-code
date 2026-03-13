@@ -73,9 +73,9 @@ def check_gitignore(base_dir: Path) -> List[str]:
         content = gitignore_path.read_text()
         # 检查是否有 .env 规则
         if not re.search(r"^\.env$|^skills/\.env$|^skills/\*/\.env$", content, re.MULTILINE):
-            issues.append("⚠️  .gitignore 未包含 .env 规则")
+            issues.append("❌ .gitignore 未包含 .env 规则 - 可能导致敏感信息泄露！")
     else:
-        issues.append("⚠️  未找到 .gitignore 文件")
+        issues.append("❌ 未找到 .gitignore 文件 - 敏感文件可能被提交！")
 
     return issues
 
