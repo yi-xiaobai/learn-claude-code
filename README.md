@@ -58,6 +58,8 @@
 |------|------|---------|
 | `work-log` | 工作日志管理 - 任务记录、日期模板、PDF 导出 | 6 |
 | `github-trending-feishu` | GitHub Trending 飞书推送 - 支持日/周/月热榜 | - |
+| `sync-skills` | 技能同步 - 将技能同步到多个目标目录 | - |
+| `turtle-build` | Turtle 项目构建 - 自动化分支切换、构建、推送流程 | - |
 
 **总计：9 个测试用例**
 
