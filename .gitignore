@@ -3,3 +3,4 @@ node_modules/**
 skills/*/projects.conf
 skills/*/.env
 .claude/**
+.DS_Store
