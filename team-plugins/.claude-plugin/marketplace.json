@@ -1,0 +1,24 @@
+{
+  "name": "team-plugins",
+  "description": "团队 Claude Code 插件集合 - 包含 DevOps、通用工具、客户端构建等",
+  "owner": {
+    "name": "Your Team"
+  },
+  "plugins": [
+    {
+      "name": "devops-plugin",
+      "source": "./plugins/devops-plugin",
+      "description": "DevOps 工具：分支创建、MR 管理、代码检查、Git 同步"
+    },
+    {
+      "name": "common-plugin",
+      "source": "./plugins/common-plugin",
+      "description": "通用效率工具：工作日志、GitHub 热榜推送"
+    },
+    {
+      "name": "client-plugin",
+      "source": "./plugins/client-plugin",
+      "description": "客户端构建工具：Turtle 项目构建"
+    }
+  ]
+}

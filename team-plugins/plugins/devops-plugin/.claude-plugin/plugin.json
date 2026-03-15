@@ -1,0 +1,8 @@
+{
+  "name": "devops-plugin",
+  "description": "DevOps 工具集：Git 分支管理、MR 创建与查看、代码检查、智能同步",
+  "version": "1.0.0",
+  "author": {
+    "name": "Your Team"
+  }
+}

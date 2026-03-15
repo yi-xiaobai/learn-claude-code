@@ -1,0 +1,8 @@
+{
+  "name": "client-plugin",
+  "description": "客户端构建工具：Turtle 项目自动化构建与推送",
+  "version": "1.0.0",
+  "author": {
+    "name": "Your Team"
+  }
+}
