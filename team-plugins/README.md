@@ -86,15 +86,6 @@ team-plugins/
 - 需要团队统一版本 → Plugin
 - 个人配置（路径、webhook）→ Skill
 
-## 配置要求
-
-在 `~/.config/git-agent/.env` 中配置：
-
-```bash
-# GitLab 配置（mr-list 需要）
-GITLAB_TOKEN=glpat-xxxxxxxxxx
-GITLAB_HOST=gitlab.company.com
-```
 
 ## 贡献指南
 
