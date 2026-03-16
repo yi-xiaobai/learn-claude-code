@@ -55,27 +55,34 @@ curl -s --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
 
 Use `jq` to parse JSON response and format as table.
 
-Show: MR number, title, author, source→target branch, updated time, pipeline status
+**MR Link format**:
+```
+https://$GITLAB_HOST/$PROJECT_PATH/-/merge_requests/$IID
+```
+
+In markdown: `[#42](https://gitlab.com/group/project/-/merge_requests/42)`
+
+Show: MR link, title, author, source→target branch, updated time, pipeline status
 
 ## Output format
 
 ```
 📋 **project/name** - 我的 MR 列表 (3)
 
-| # | Title | Branch | Updated | Pipeline |
-|---|-------|--------|---------|----------|
-| #42 | feat: add login | feat/login → dev | 2小时前 | ✅ passed |
-| #38 | fix: order calc | fix/order → dev | 1天前 | ❌ failed |
+| MR | Title | Branch | Updated | Pipeline |
+|----|-------|--------|---------|----------|
+| [#42](https://gitlab.company.com/group/project/-/merge_requests/42) | feat: add login | feat/login → dev | 2小时前 | ✅ passed |
+| [#38](https://gitlab.company.com/group/project/-/merge_requests/38) | fix: order calc | fix/order → dev | 1天前 | ❌ failed |
 ```
 
 With `--all`:
 ```
 📋 **project/name** - 所有 MR 列表 (5)
 
-| # | Title | Author | Branch | Updated | Pipeline |
-|---|-------|--------|--------|---------|----------|
-| #42 | feat: add login | zhangsan | feat/login → dev | 2小时前 | ✅ |
-| #41 | fix: bug | lisi | fix/bug → dev | 3小时前 | ✅ |
+| MR | Title | Author | Branch | Updated | Pipeline |
+|----|-------|--------|--------|---------|----------|
+| [#42](https://gitlab.company.com/group/project/-/merge_requests/42) | feat: add login | zhangsan | feat/login → dev | 2小时前 | ✅ |
+| [#41](https://gitlab.company.com/group/project/-/merge_requests/41) | fix: bug | lisi | fix/bug → dev | 3小时前 | ✅ |
 ```
 
 ## Configuration
