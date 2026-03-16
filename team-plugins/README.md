@@ -27,7 +27,7 @@
 ### 2. 安装插件
 
 ```bash
-/plugin install branch-commands commit-commands mr-list@team-plugins
+/plugin install branch-commands commit-commands mr-commands@team-plugins
 ```
 
 ### 3. 使用
