@@ -1,91 +1,67 @@
 # Branch Commands Plugin
 
-Git branch workflow commands: create, switch, delete, sync, and more.
+Git 分支工作流命令集合。
 
-## Overview
-
-This plugin automates Git branch creation with automatic version numbering. It creates the remote branch first, then switches locally, ensuring clean branch tracking.
-
-## Commands
+## 命令列表
 
 ### /branch-create
+
+创建新分支，自动版本号。
 
 ```bash
 /branch-create [type] [base_branch] [ide]
 ```
 
-Creates a new Git branch with auto-generated version number.
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `type` | feat, fix, hotfix | 必填 |
+| `base_branch` | 基础分支 | dev |
+| `ide` | windsurf, vscode | windsurf |
 
-**Parameters:**
-
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `type` | Branch type: `feat`, `fix`, `hotfix` | Required |
-| `base_branch` | Base branch to create from | `dev` |
-| `ide` | IDE to open: `windsurf`, `vscode` | `windsurf` |
-
-**What it does:**
-
-1. Analyzes existing branches to determine next version number
-2. Translates Chinese description to English kebab-case
-3. Creates remote branch first (ensures clean tracking)
-4. Switches to local branch
-5. Opens project in IDE
-
-**Example:**
-
+示例：
 ```bash
-/branch-create feat
-# → Asks for description
-# → Creates: feat-add-user-login-v3
-# → Opens in Windsurf
-
-/branch-create fix master vscode
-# → Creates fix branch based on master
-# → Opens in VS Code
+/branch-create feat              # feat-xxx-v3
+/branch-create fix master        # fix-xxx-v2 基于 master
 ```
 
-## Installation
+### /branch-switch
+
+智能切换分支（模糊搜索）。
+
+```bash
+/branch-switch [keyword]
+```
+
+示例：
+```bash
+/branch-switch                   # 显示最近分支列表
+/branch-switch login             # 匹配包含 login 的分支
+/branch-switch 3                 # 切换到列表第 3 个分支
+```
+
+### /branch-delete
+
+清理已合并/过期分支。
+
+```bash
+/branch-delete [option]
+```
+
+示例：
+```bash
+/branch-delete                   # 显示可清理的分支
+/branch-delete merged            # 删除所有已合并分支
+/branch-delete feat-old-v1       # 删除指定分支
+```
+
+## 安全规则
+
+- 永不删除：main, master, dev
+- 永不删除当前分支
+- 删除远端分支需确认
+
+## 安装
 
 ```bash
 /plugin install branch-commands@team-plugins
 ```
-
-## Best Practices
-
-- Use meaningful descriptions, Claude will translate to English
-- For hotfix, base on `master` instead of `dev`
-- Version numbers auto-increment, no manual management needed
-
-## Troubleshooting
-
-### Base branch doesn't exist
-
-```bash
-# Check available remote branches
-git branch -r
-```
-
-### Permission denied
-
-- Check GitLab Token has `write_repository` permission
-- Check branch protection rules
-
-### IDE command not found
-
-- Windsurf: Ensure installed and in PATH
-- VS Code: Run `Shell Command: Install 'code' command in PATH`
-
-## Requirements
-
-- Git 2.x+
-- GitLab project push permission
-- Windsurf or VS Code (optional)
-
-## Author
-
-Your Team
-
-## Version
-
-1.0.0

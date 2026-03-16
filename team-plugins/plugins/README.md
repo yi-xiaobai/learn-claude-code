@@ -1,17 +1,19 @@
 # Team Plugins
 
-扁平式插件目录，每个插件独立管理。
+团队级 Git 工作流插件，通过 Marketplace 统一分发。
 
 ## 插件列表
 
 | 插件 | 命令 | 说明 |
 |------|------|------|
 | **branch-commands** | `/branch-create`, `/branch-switch`, `/branch-delete` | Git 分支工作流 |
-| **commit-commands** | `/commit`, `/commit-push`, `/commit-push-mr` | Git 提交工作流 |
-| **mr-list** | `/mr-list` | 查看 GitLab MR 列表 |
-| **work-log** | `/log`, `/generate-week` | 工作日志管理 |
-| **turtle-build** | `/build` | Turtle 项目构建 |
-| **github-trending** | `/trending` | GitHub 热榜推送 |
+| **commit-commands** | `/commit`, `/commit-push`, `/commit-push-mr`, `/commit-undo` | Git 提交工作流 |
+| **mr-commands** | `/mr-list` | GitLab MR 工作流 |
+
+> **个人效率工具**（Skills，非插件）：
+> - `/log`, `/generate-week` → work-log skill
+> - `/build` → turtle-build skill
+> - `/trending` → github-trending skill
 
 ## 目录结构
 
@@ -29,31 +31,23 @@ plugins/
 │   ├── commands/
 │   │   ├── commit.md
 │   │   ├── commit-push.md
-│   │   └── commit-push-mr.md
+│   │   ├── commit-push-mr.md
+│   │   └── commit-undo.md
 │   └── README.md
-├── mr-list/
-│   ├── .claude-plugin/plugin.json
-│   ├── commands/mr-list.md
-│   └── README.md
-├── work-log/
-│   ├── .claude-plugin/plugin.json
-│   ├── commands/
-│   │   ├── log.md
-│   │   └── generate-week.md
-│   └── README.md
-├── turtle-build/
-│   ├── .claude-plugin/plugin.json
-│   ├── commands/build.md
-│   └── README.md
-└── github-trending/
+└── mr-commands/
     ├── .claude-plugin/plugin.json
-    ├── commands/trending.md
+    ├── commands/mr-list.md
     └── README.md
 ```
 
-## 命令文件格式
+## Plugin vs Skill
 
-参考 [Anthropic 官方插件](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/commit-commands)：
+| 类型 | 用途 | 示例 |
+|------|------|------|
+| **Plugin** | 团队共享、标准化工作流 | branch-commands, commit-commands |
+| **Skill** | 个人效率、本地配置 | work-log, turtle-build, github-trending |
+
+## 命令文件格式
 
 ```markdown
 ---
@@ -69,8 +63,3 @@ description: Short description
 
 Instructions for Claude...
 ```
-
-**关键特性**：
-- `allowed-tools`: 限制可用工具
-- `!` 语法: 动态获取上下文
-- 简洁指令: 详细文档放 README.md

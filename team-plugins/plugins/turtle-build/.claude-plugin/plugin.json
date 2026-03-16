@@ -1,7 +1,0 @@
-{
-  "name": "turtle-build",
-  "description": "Turtle project build workflow - checkout, build, and push",
-  "author": {
-    "name": "Your Team"
-  }
-}

@@ -14,22 +14,7 @@ This plugin automates common git operations, reducing context switching and manu
 /commit
 ```
 
-Creates a git commit with an automatically generated commit message based on staged and unstaged changes.
-
-**What it does:**
-
-1. Analyzes current git status
-2. Reviews both staged and unstaged changes
-3. Examines recent commit messages to match your repository's style
-4. Drafts an appropriate commit message (Conventional Commits format)
-5. Stages relevant files
-6. Creates the commit
-
-**Features:**
-
-- Automatically drafts commit messages that match your repo's style
-- Follows Conventional Commits practices
-- Avoids committing files with secrets (.env, credentials)
+Creates a git commit with an automatically generated commit message.
 
 ### /commit-push
 
@@ -39,59 +24,36 @@ Creates a git commit with an automatically generated commit message based on sta
 
 Commits and pushes to remote in one step.
 
-**What it does:**
-
-1. Analyzes changes and generates commit message
-2. Stages and commits
-3. Pushes to origin
-
-**Example:**
-
-```bash
-/commit-push
-# → Analyzes changes
-# → Commits: feat(auth): add user login
-# → Pushes to origin
-# → ✅ Done
-```
-
 ### /commit-push-mr
 
 ```bash
 /commit-push-mr [target_branch]
 ```
 
-Complete workflow command that commits, pushes, and creates a GitLab Merge Request in one step.
+Commits, pushes, and creates a GitLab MR in one step.
 
-**Parameters:**
+| 参数 | 说明 | 默认值 |
+|------|------|--------|
+| `target_branch` | 目标分支 | dev |
 
-| Parameter | Description | Default |
-|-----------|-------------|---------|
-| `target_branch` | MR target branch | `dev` |
-
-**What it does:**
-
-1. Stages and commits changes with an appropriate message
-2. Pushes the branch to origin
-3. Creates a Merge Request using GitLab API
-4. Provides the MR URL
-
-**Default MR settings:**
-
-- Delete source branch after merge: ✅
-- Squash commits: ✅
-
-**Examples:**
+### /commit-undo
 
 ```bash
-/commit-push-mr
-# → Creates MR to dev (default)
+/commit-undo [mode]
+```
 
-/commit-push-mr master
-# → Creates MR to master
+Undo the last commit while preserving changes.
 
-/commit-push-mr release/v1.0
-# → Creates MR to release/v1.0
+| 模式 | 说明 | 变更保留 |
+|------|------|----------|
+| `soft` | 撤销提交，保留暂存 | ✅ staged |
+| `mixed` | 撤销提交，取消暂存 | ✅ unstaged |
+| `hard` | 撤销提交，丢弃变更 | ❌ 丢失 |
+
+示例：
+```bash
+/commit-undo           # 默认 soft 模式
+/commit-undo hard      # 丢弃所有变更（需确认）
 ```
 
 ## Installation

@@ -1,7 +1,0 @@
-{
-  "name": "github-trending",
-  "description": "Fetch GitHub Trending and send to Feishu group",
-  "author": {
-    "name": "Your Team"
-  }
-}
