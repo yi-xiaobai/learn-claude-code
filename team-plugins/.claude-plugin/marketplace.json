@@ -1,24 +1,39 @@
 {
   "name": "team-plugins",
-  "description": "团队 Claude Code 插件集合 - 包含 DevOps、通用工具、客户端构建等",
+  "description": "团队 Claude Code 插件集合 - 包含 DevOps、效率工具、客户端构建等",
   "owner": {
     "name": "Your Team"
   },
   "plugins": [
     {
-      "name": "devops-plugin",
-      "source": "./plugins/devops-plugin",
-      "description": "DevOps 工具：分支创建、MR 管理、代码检查、Git 同步"
+      "name": "branch-create",
+      "source": "./plugins/branch-create",
+      "description": "创建 Git 分支，自动版本号"
     },
     {
-      "name": "common-plugin",
-      "source": "./plugins/common-plugin",
-      "description": "通用效率工具：工作日志、GitHub 热榜推送"
+      "name": "commit-commands",
+      "source": "./plugins/commit-commands",
+      "description": "Git 提交工作流：commit, commit-push, commit-push-mr"
     },
     {
-      "name": "client-plugin",
-      "source": "./plugins/client-plugin",
-      "description": "客户端构建工具：Turtle 项目构建"
+      "name": "mr-list",
+      "source": "./plugins/mr-list",
+      "description": "查看 GitLab MR 列表"
+    },
+    {
+      "name": "work-log",
+      "source": "./plugins/work-log",
+      "description": "工作日志管理：log, generate-week"
+    },
+    {
+      "name": "turtle-build",
+      "source": "./plugins/turtle-build",
+      "description": "Turtle 项目构建"
+    },
+    {
+      "name": "github-trending",
+      "source": "./plugins/github-trending",
+      "description": "GitHub 热榜推送到飞书"
     }
   ]
 }
