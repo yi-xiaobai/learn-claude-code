@@ -1,12 +1,11 @@
 ---
-allowed-tools: Bash(git remote:*), Bash(curl:*)
+allowed-tools: Bash(git remote:*), Bash(curl:*), Bash(sed:*), Bash(grep:*), Bash(cut:*), Bash(jq:*)
 description: List GitLab Merge Requests for current project
 ---
 
 ## Context
 
 - Remote URL: !`git remote get-url origin`
-- Current GitLab user: !`curl -s --header "PRIVATE-TOKEN: $GITLAB_TOKEN" "https://$GITLAB_HOST/api/v4/user" 2>/dev/null | grep -o '"username":"[^"]*"' | cut -d'"' -f4`
 
 ## Parameters
 
@@ -25,11 +24,11 @@ PROJECT_PATH=$(git remote get-url origin | sed 's|.*[:/]\([^/]*/[^/]*\)\.git|\1|
 ENCODED_PATH=$(echo "$PROJECT_PATH" | sed 's|/|%2F|g')
 ```
 
-### Step 2: Get current user ID
+### Step 2: Get current user ID (skip if --all)
 
 ```bash
 USER_ID=$(curl -s --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
-  "https://$GITLAB_HOST/api/v4/user" | grep -o '"id":[0-9]*' | cut -d: -f2)
+  "https://$GITLAB_HOST/api/v4/user" | jq -r '.id')
 ```
 
 ### Step 3: Get MR list from GitLab API
@@ -53,6 +52,8 @@ curl -s --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
 - `sort=desc`: Newest first
 
 ### Step 4: Format output as table
+
+Use `jq` to parse JSON response and format as table.
 
 Show: MR number, title, author, source→target branch, updated time, pipeline status
 
