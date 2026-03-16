@@ -15,7 +15,7 @@
 
 | 插件 | 命令 | 说明 |
 |------|------|------|
-| **branch-create** | `/branch-create` | 创建 Git 分支，自动版本号 |
+| **branch-commands** | `/branch-create`, `/branch-switch`, `/branch-delete` | Git 分支工作流 |
 | **commit-commands** | `/commit`, `/commit-push`, `/commit-push-mr` | Git 提交工作流 |
 | **mr-list** | `/mr-list` | 查看 GitLab MR 列表 |
 | **work-log** | `/log`, `/generate-week` | 工作日志管理 |
@@ -38,13 +38,13 @@
 
 ```bash
 # 安装单个插件
-/plugin install branch-create@team-plugins
+/plugin install branch-commands@team-plugins
 /plugin install commit-commands@team-plugins
 /plugin install mr-list@team-plugins
 /plugin install work-log@team-plugins
 
 # 或安装全部
-/plugin install branch-create commit-commands mr-list work-log@team-plugins
+/plugin install branch-commands commit-commands mr-list work-log@team-plugins
 ```
 
 ### 3. 使用

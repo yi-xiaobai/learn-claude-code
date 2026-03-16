@@ -6,9 +6,9 @@
   },
   "plugins": [
     {
-      "name": "branch-create",
-      "source": "./plugins/branch-create",
-      "description": "创建 Git 分支，自动版本号"
+      "name": "branch-commands",
+      "source": "./plugins/branch-commands",
+      "description": "Git 分支工作流：create, switch, delete, sync"
     },
     {
       "name": "commit-commands",

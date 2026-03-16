@@ -6,7 +6,7 @@
 
 | 插件 | 命令 | 说明 |
 |------|------|------|
-| **branch-create** | `/branch-create` | 创建 Git 分支，自动版本号 |
+| **branch-commands** | `/branch-create`, `/branch-switch`, `/branch-delete` | Git 分支工作流 |
 | **commit-commands** | `/commit`, `/commit-push`, `/commit-push-mr` | Git 提交工作流 |
 | **mr-list** | `/mr-list` | 查看 GitLab MR 列表 |
 | **work-log** | `/log`, `/generate-week` | 工作日志管理 |
@@ -17,9 +17,12 @@
 
 ```
 plugins/
-├── branch-create/
+├── branch-commands/
 │   ├── .claude-plugin/plugin.json
-│   ├── commands/branch-create.md
+│   ├── commands/
+│   │   ├── branch-create.md
+│   │   ├── branch-switch.md
+│   │   └── branch-delete.md
 │   └── README.md
 ├── commit-commands/
 │   ├── .claude-plugin/plugin.json

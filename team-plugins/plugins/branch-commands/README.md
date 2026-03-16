@@ -1,6 +1,6 @@
-# Branch Create Plugin
+# Branch Commands Plugin
 
-Create Git branches with auto-versioning and IDE integration.
+Git branch workflow commands: create, switch, delete, sync, and more.
 
 ## Overview
 
@@ -48,7 +48,7 @@ Creates a new Git branch with auto-generated version number.
 ## Installation
 
 ```bash
-/plugin install branch-create@team-plugins
+/plugin install branch-commands@team-plugins
 ```
 
 ## Best Practices
