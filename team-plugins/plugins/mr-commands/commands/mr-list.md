@@ -1,6 +1,7 @@
 ---
 allowed-tools: Bash(git remote:*), Bash(curl:*), Bash(sed:*), Bash(grep:*), Bash(cut:*), Bash(jq:*)
 description: List GitLab Merge Requests for current project
+disable-tools-approval: true
 ---
 
 ## Context
