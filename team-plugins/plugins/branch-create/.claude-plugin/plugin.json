@@ -1,0 +1,7 @@
+{
+  "name": "branch-create",
+  "description": "Create Git branches with auto-versioning and IDE integration",
+  "author": {
+    "name": "Your Team"
+  }
+}

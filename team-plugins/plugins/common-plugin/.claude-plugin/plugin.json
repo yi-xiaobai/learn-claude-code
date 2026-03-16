@@ -1,8 +1,0 @@
-{
-  "name": "common-plugin",
-  "description": "通用效率工具：工作日志管理、GitHub 热榜推送",
-  "version": "1.0.0",
-  "author": {
-    "name": "Your Team"
-  }
-}

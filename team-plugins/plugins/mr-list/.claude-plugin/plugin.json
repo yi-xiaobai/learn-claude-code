@@ -1,0 +1,7 @@
+{
+  "name": "mr-list",
+  "description": "List GitLab Merge Requests for current project",
+  "author": {
+    "name": "Your Team"
+  }
+}
