@@ -2,6 +2,8 @@
 
 学习 Claude Code 的代码示例和技能集合。
 
+> **注意**：团队插件已迁移至独立仓库 [team-plugins](https://github.com/yi-xiaobai/team-plugins)
+
 ## 项目结构
 
 ```
