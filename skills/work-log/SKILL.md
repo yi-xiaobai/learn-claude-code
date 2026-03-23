@@ -208,6 +208,22 @@ tell application "System Events"
     tell process "Typora"
         set frontmost to true
         delay 0.5
+
+        -- 关闭 Typora 激活成功弹窗（点击 Close 按钮）
+        try
+            if exists window "Typora Activated" then
+                click button "Close" of window "Typora Activated"
+                delay 0.5
+            end if
+        end try
+
+        -- 如果弹窗结构不同，尝试按 Enter 或 ESC 关闭
+        keystroke return
+        delay 0.3
+        keystroke (ASCII character 27)
+        delay 0.3
+
+        -- 执行导出 PDF
         click menu item "PDF" of menu "Export" of menu item "Export" of menu "File" of menu bar 1
         delay 2
         keystroke return
