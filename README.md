@@ -25,6 +25,8 @@
 │   ├── skill-lint/
 │   ├── sync-skills/
 │   ├── turtle-build/
+│   ├── turtle-build-publish/
+│   ├── turtle-publish/
 │   └── work-log/
 └── package.json
 ```
@@ -39,6 +41,8 @@
 | `github-trending-feishu` | GitHub Trending 飞书推送 - 支持日/周/月热榜，定时推送 |
 | `sync-skills` | 技能同步 - 将技能同步到多个目标目录 |
 | `turtle-build` | Turtle 项目构建 - 自动化分支切换、构建、推送流程 |
+| `turtle-publish` | Turtle NPM 发布 - 自动递增版本、私有仓库认证、发布推送 |
+| `turtle-build-publish` | Turtle 构建发布 - 构建+版本更新+发布的一体化流程 |
 
 ### 代码质量
 
@@ -68,6 +72,17 @@
 - 🔄 自动切换远端分支（检查分支存在性）
 - 🏗️ 执行 yarn build 构建
 - 📤 智能生成提交信息并推送
+
+**turtle-publish** - Turtle NPM 发布
+- 📦 自动递增 patch 版本号
+- 🔐 私有仓库认证登录
+- 🔄 失败自动重试（删除 ~/.nvmrc）
+- 📤 发布后自动 git push
+
+**turtle-build-publish** - Turtle 构建发布一体化
+- 🔄 可选切换分支（用户提供分支名时）
+- 🏗️ 构建 → 版本更新 → 发布 → 推送
+- 📦 自动递增 patch 版本并发布到私有仓库
 
 **sync-skills** - 技能同步工具
 - 🔄 支持多目标路径同步
@@ -100,6 +115,24 @@ WORK_LOG_PATH=~/Documents/工作日志.md
 TURTLE_PROJECT_PATH=~/path/to/your/turtle-project
 ```
 
+**turtle-publish**
+```bash
+TURTLE_PROJECT_PATH=~/path/to/your/turtle-project
+NPM_REGISTRY=https://registry.example.com
+NPM_USERNAME=your_username
+NPM_PASSWORD=your_password
+NPM_EMAIL=your_email
+```
+
+**turtle-build-publish**
+```bash
+TURTLE_PROJECT_PATH=~/path/to/your/turtle-project
+NPM_REGISTRY=https://registry.example.com
+NPM_USERNAME=your_username
+NPM_PASSWORD=your_password
+NPM_EMAIL=your_email
+```
+
 **github-trending-feishu**
 ```bash
 FEISHU_WEBHOOK=your_webhook_url
@@ -109,7 +142,7 @@ FEISHU_SECRET=your_secret  # 可选
 **sync-skills**
 ```bash
 SYNC_TARGET_PATHS=~/Documents/13_AI/learn-claude-code/skills:~/backups/skills
-SYNC_SKILLS=github-trending-feishu:skill-lint:sync-skills:turtle-build:work-log
+SYNC_SKILLS=github-trending-feishu:skill-lint:sync-skills:turtle-build:turtle-publish:turtle-build-publish:work-log
 ```
 
 ## 依赖
