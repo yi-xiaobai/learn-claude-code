@@ -29,16 +29,13 @@ TURTLE_PROJECT_PATH=~/path/to/project
 # 1. 进入项目并获取最新
 source ~/.claude/skills/turtle-build/.env && cd $TURTLE_PROJECT_PATH && git fetch
 
-# 2. 检查分支是否存在 (不存在则停止)
-git branch -r | grep "$ARGUMENTS"
+# 2. 切换分支并与远端同步
+git checkout -b $ARGUMENTS origin/$ARGUMENTS
 
-# 3. 切换分支并拉取最新
-git checkout $ARGUMENTS && git pull
-
-# 4. 构建
+# 3. 构建
 yarn build
 
-# 5. 提交推送 (根据变化生成描述)
+# 4. 提交推送 (根据变化生成描述)
 git add . && git commit -m "chore(build): update dist bundle" && git push
 ```
 
@@ -50,6 +47,5 @@ git add . && git commit -m "chore(build): update dist bundle" && git push
 
 ## Troubleshooting
 
-- **分支不存在**: `错误：远端分支 <name> 不存在`
-- **切换失败**: 检查未提交的更改
+- **切换失败**: 检查分支名称是否正确
 - **构建失败**: 展示错误,停止执行
