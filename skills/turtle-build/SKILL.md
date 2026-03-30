@@ -32,8 +32,8 @@ source ~/.claude/skills/turtle-build/.env && cd $TURTLE_PROJECT_PATH && git fetc
 # 2. 检查分支是否存在 (不存在则停止)
 git branch -r | grep "$ARGUMENTS"
 
-# 3. 切换分支
-git checkout $ARGUMENTS
+# 3. 切换分支并拉取最新
+git checkout $ARGUMENTS && git pull
 
 # 4. 构建
 yarn build
