@@ -5,14 +5,13 @@
  * before each LLM call to deliver results.
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
-import { join, resolve } from 'path';
-import { execSync, spawn } from 'child_process';
+import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { resolve } from 'path';
+import { execSync } from 'child_process';
 import { Anthropic } from '@anthropic-ai/sdk';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { Worker } from 'worker_threads';
 import crypto from 'crypto';
 
 const __filename = fileURLToPath(import.meta.url);
