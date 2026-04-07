@@ -95,25 +95,37 @@ source ~/.claude/skills/work-log/.env && cat "$WORK_LOG_PATH"
 
 ### 操作步骤
 
-1. **确定起始日期**
-   - 默认从明天开始
-   - 或用户指定的日期
+1. **确定日期范围**
+   - 默认从明天开始，向后扫描7天
+   - 或用户指定的日期范围
 
-2. **计算工作日**
-   - 生成未来5个工作日（跳过周六=6，周日=0）
-   - 如果用户需要加班日，可手动指定
+2. **查询节假日日历（关键步骤）**
+   - 使用免费 API 逐日查询每个日期是否为工作日：
+   ```bash
+   curl -s "http://api.haoshenqi.top/holiday?date=YYYY-MM-DD"
+   ```
+   - API 返回 `status` 字段含义：
+     | status | 含义 | 是否生成模板 |
+     |--------|------|-------------|
+     | 0 | 正常工作日（周一~周五） | ✅ 生成 |
+     | 1 | 正常周末 | ❌ 跳过 |
+     | 2 | 调休工作日（周末补班） | ✅ 生成，并标注（补班） |
+     | 3 | 法定假日 | ❌ 跳过 |
+   - **必须对范围内的每个日期逐一查询**，不要假设周一~周五都是工作日
 
 3. **检查重复**
    - 读取文件，检查日期是否已存在
    - 跳过已存在的日期
 
 4. **生成模板**
+   - 仅对 status=0 和 status=2 的日期生成模板
+   - status=2 的日期使用格式 `### YYYY.MM.DD（补班）`
    - 每周一前插入4个空行作为周分隔
    - 在文件末尾追加新日期
 
 ### 周分隔规则
 
-每周的第一个工作日（通常是周一）前需要插入4个空行：
+每周的第一个工作日（通常是周一）前需要插入4个空行。注意：如果周一恰好是假日，则周二作为新一周的起始：
 
 ```markdown
 ### 2025.03.07
@@ -130,23 +142,31 @@ source ~/.claude/skills/work-log/.env && cat "$WORK_LOG_PATH"
 
 ### 示例
 
-**用户输入**: "生成下周的日期模板"（假设今天是2025.03.05周三）
+**用户输入**: "生成下周的日期模板"（假设今天是2025.09.26周五，下周含国庆调休）
 
-**生成内容**:
+**API 查询结果**:
+```
+2025-09-29 (Mon) => status=0 正常工作日
+2025-09-30 (Tue) => status=0 正常工作日
+2025-10-01 (Wed) => status=3 国庆假日
+2025-10-02 (Thu) => status=3 国庆假日
+2025-10-03 (Fri) => status=3 国庆假日
+```
+
+**生成内容**（跳过假日，只生成工作日）:
 ```markdown
 
 
 
 
-### 2025.03.10
+### 2025.09.29
 
-### 2025.03.11
+### 2025.09.30
+```
 
-### 2025.03.12
-
-### 2025.03.13
-
-### 2025.03.14
+**如果某个周末是补班日**（如 2025-10-11 周六 => status=2）:
+```markdown
+### 2025.10.11（补班）
 ```
 
 ---
@@ -168,6 +188,7 @@ source ~/.claude/skills/work-log/.env && cat "$WORK_LOG_PATH"
 - `（半天年假）`
 - `（休假）`
 - `（团建）`
+- `（补班）` — 周末调休上班，由 API 自动检测
 - `（元旦）`、`（春节）`等节日
 
 ---
@@ -273,32 +294,32 @@ PDF 文件会保存在与 md 文件相同的目录：
 
 ## 日期计算辅助
 
+### 推荐方式：使用 Bash 批量查询节假日 API
+
+```bash
+# 查询指定日期范围内每一天的工作日/假日状态
+# 参数：起始日期(YYYY-MM-DD)，天数
+start_date="2026-04-06"
+days=7
+
+for i in $(seq 0 $((days - 1))); do
+  d=$(date -j -v+${i}d -f "%Y-%m-%d" "$start_date" "+%Y-%m-%d")
+  status=$(curl -s "http://api.haoshenqi.top/holiday?date=$d" | grep -o '"status":[0-9]*' | grep -o '[0-9]*')
+  case $status in
+    0) echo "$d => 工作日" ;;
+    1) echo "$d => 周末" ;;
+    2) echo "$d => 补班(工作日)" ;;
+    3) echo "$d => 假日" ;;
+  esac
+done
+```
+
 ### JavaScript 日期工具代码（供参考）
 
 ```javascript
-// 获取未来N个工作日
-function getNextWorkdays(startDate, count) {
-  const workdays = [];
-  let current = new Date(startDate);
-  
-  while (workdays.length < count) {
-    current.setDate(current.getDate() + 1);
-    const day = current.getDay();
-    // 跳过周六(6)和周日(0)
-    if (day !== 0 && day !== 6) {
-      workdays.push(formatDate(current));
-    }
-  }
-  return workdays;
-}
-
-// 格式化日期为 YYYY.MM.DD
-function formatDate(date) {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}.${m}.${d}`;
-}
+// 使用节假日 API 判断是否为工作日
+// API: http://api.haoshenqi.top/holiday?date=YYYY-MM-DD
+// status: 0=工作日, 1=周末, 2=补班工作日, 3=假日
 
 // 判断是否是周一（需要添加周分隔）
 function isMonday(dateStr) {
@@ -315,7 +336,7 @@ function isMonday(dateStr) {
 |-------|---------|
 | "今天完成了xxx" | 在今天日期下添加 `- [x] xxx` |
 | "记录昨天：做了xxx" | 在昨天日期下添加 `- [ ] xxx` |
-| "生成下周日期" | 追加下周一到周五的日期模板 |
+| "生成下周日期" | 查询节假日API，追加实际工作日的日期模板（跳过假日，周末补班标注（补班）） |
 | "3月10号请假" | 添加 `### 2025.03.10（请假）` |
 | "把xxx标记完成" | 将对应任务的 `[ ]` 改为 `[x]` |
 | "导出PDF" | 使用 AppleScript 自动导出 PDF |
