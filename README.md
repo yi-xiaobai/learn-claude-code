@@ -2,7 +2,7 @@
 
 Claude Code 代码示例和技能集合。
 
-> 团队插件已迁移至 [team-plugins](https://github.com/yi-xiaobai/team-plugins)
+> 团队插件已迁移至 [collabCraft-plugins](https://github.com/yi-xiaobai/collabCraft-plugins)
 
 ## 技能
 
