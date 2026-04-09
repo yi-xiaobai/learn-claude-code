@@ -10,9 +10,7 @@ Claude Code 代码示例和技能集合。
 |------|------|
 | `work-log` | 工作日志管理，支持任务记录、日期模板、PDF 导出 |
 | `github-trending-feishu` | GitHub 热榜飞书推送，支持日/周/月榜定时推送 |
-| `turtle-build` | Turtle 项目构建，分支切换 → 构建 → 推送 |
-| `turtle-publish` | Turtle NPM 发布，版本递增 → 认证 → 发布 |
-| `turtle-build-publish` | Turtle 构建发布一体化流程 |
+| `turtle` | Turtle 项目自动化，支持构建、发布、构建发布（`/turtle build/publish/build-publish <branch>`） |
 | `sync-skills` | 技能多目录同步 |
 | `skill-lint` | 技能合规检查，扫描硬编码路径和敏感信息 |
 
