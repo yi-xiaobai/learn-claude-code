@@ -70,46 +70,24 @@ done
 
 ## 功能3: 导出 PDF
 
-**前置条件**: 已安装 Typora，终端已获得辅助功能权限
+**前置条件**: 已安装 MWeb Pro，终端已获得辅助功能权限。
+
+**执行**:
 
 ```bash
-source ~/.claude/skills/work-log/.env
-rm -f "${WORK_LOG_PATH%.md}.pdf"
-
-osascript <<EOF
-set mdFile to "$WORK_LOG_PATH"
-tell application "Typora"
-    activate
-    open mdFile
-end tell
-delay 2
-tell application "System Events"
-    tell process "Typora"
-        set frontmost to true
-        delay 0.5
-        try
-            if exists window "Typora Activated" then
-                click button "Close" of window "Typora Activated"
-                delay 0.5
-            end if
-        end try
-        keystroke return
-        delay 0.3
-        keystroke (ASCII character 27)
-        delay 0.3
-        click menu item "PDF" of menu "Export" of menu item "Export" of menu "File" of menu bar 1
-        delay 2
-        keystroke return
-        delay 3
-    end tell
-end tell
-tell application "Typora"
-    quit
-end tell
-EOF
+bash ~/.claude/skills/work-log/scripts/export-pdf.sh
 ```
 
-执行期间不要操作电脑，AppleScript 会模拟菜单点击。
+**原理**: `Publish > Export as PDF...` → 点 `Save as...` → 系统保存框用剪贴板粘贴中文文件名，`Cmd+Shift+G` 定位目录后回车保存。整个流程约 7 秒。
+
+**实现要点**（见 `scripts/export-pdf.sh`）:
+
+- 脚本开头先 `pkill "MWeb Pro"` 确保单窗口干净状态（残留的 Untitled 窗口会干扰自动化）
+- 中文文件名必须通过剪贴板 `Cmd+V` 粘贴，AppleScript `keystroke` 对 CJK 不可靠
+- 末尾用 AppleScript 原生 `POSIX file ... as alias` 轮询 PDF 出现，替代固定长延迟
+- 结束时用 `pkill` 而非 `quit`，避开 Untitled 文档的未保存提示
+
+执行期间不要操作电脑或剪贴板，AppleScript 会模拟菜单点击与粘贴。
 
 ---
 
