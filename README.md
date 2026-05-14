@@ -8,7 +8,7 @@ Claude Code 代码示例和技能集合。
 
 | 技能 | 描述 |
 |------|------|
-| `work-log` | 工作日志管理，支持任务记录、日期模板、PDF 导出 |
+| `work-log` | 工作日志管理，支持任务记录、出差标识、日期模板、PDF 导出 |
 | `github-trending-feishu` | GitHub 热榜飞书推送，支持日/周/月榜定时推送 |
 | `turtle` | Turtle 项目自动化，支持构建、发布、构建发布（`/turtle build/publish/build-publish <branch>`） |
 | `sync-skills` | 技能多目录同步 |
