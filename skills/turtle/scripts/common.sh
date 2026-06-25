@@ -32,16 +32,3 @@ get_turtle_path() {
     echo "❌ 未找到turtle项目" >&2
     return 1
 }
-
-# 检查npm登录状态
-check_npm_login() {
-    local TURTLE_PATH="$1"
-    cd "$TURTLE_PATH"
-    
-    local REGISTRY=$(npm config get registry)
-    if ! grep -q "$REGISTRY" "$HOME/.npmrc" 2>/dev/null; then
-        echo "🔐 请先执行: npm login --registry=$REGISTRY" >&2
-        return 1
-    fi
-    return 0
-}
